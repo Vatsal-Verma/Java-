@@ -1,0 +1,105 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+public class SimpleChatReceiver {
+
+    private JTextArea chatArea;
+    private JTextField messageField;
+    private Socket socket;
+    private BufferedReader reader;
+    private PrintWriter writer;
+
+    public SimpleChatReceiver() {
+        initializeUI();
+        connectToServer();
+    }
+
+    private void initializeUI() {
+        JFrame frame = new JFrame("Simple Chat Application - Receiver");
+        frame.setSize(400, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+
+        chatArea = new JTextArea();
+        chatArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(chatArea);
+
+        messageField = new JTextField();
+        messageField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sendMessage(messageField.getText());
+            }
+        });
+
+        frame.add(scrollPane, BorderLayout.CENTER);
+        frame.add(messageField, BorderLayout.SOUTH);
+
+        frame.setVisible(true);
+    }
+
+    private void connectToServer() {
+        try {
+            socket = new Socket("localhost", 12345);
+            System.out.println("Connected to server");
+
+            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            writer = new PrintWriter(socket.getOutputStream(), true);
+
+            // Start a thread to listen for incoming messages
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    listenForMessages();
+                }
+            }).start();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void listenForMessages() {
+        try {
+            String message;
+            while ((message = reader.readLine()) != null) {
+                appendMessage("Server: " + message);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendMessage(String message) {
+        if (writer != null) {
+            writer.println(message);
+            appendMessage("Receiver: " + message);
+            messageField.setText("");
+        }
+    }
+
+    private void appendMessage(String message) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                chatArea.append(message + "\n");
+            }
+        });
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new SimpleChatReceiver();
+            }
+        });
+    }
+}
