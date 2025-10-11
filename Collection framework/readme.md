@@ -40,7 +40,7 @@ class Main {
    - Use public to make accessible everywhere.
 
 
-1. Encapsulation
+# Encapsulation
 
 Wrapping data (variables) and methods into a single unit (class).
 
@@ -63,7 +63,7 @@ class Student {
 ```
 ---
 
-2. Inheritance
+# Inheritance
 
 Allows one class to inherit properties and methods of another class.
 
@@ -163,11 +163,12 @@ class Cat extends Animal {
 Abstraction is one of the main pillars of Object-Oriented Programming (OOPs).
 It means hiding the implementation details and showing only the essential features of an object.
 
-abstract method: A method which is abstract does not have a method body.
+- abstract method: A method which is abstract does not have a method body.
 
-    	void display(); // abstract method
-abstract class: An abstract class is a class that cannot be instantiated (you cannot create its object).
+   void display(); // abstract method
+- abstract class: An abstract class is a class that cannot be instantiated (you cannot create its object).
 
+```
 abstract class Bank {
     abstract void rateOfInterest(); // no body — only definition
     void bankInfo() {
@@ -194,11 +195,13 @@ public class Main {
     }
 }
 
-4) Polymorphism
+```
+---
+# Polymorphism
       Polymorphism is an OOP concept that allows one entity (method or object) to take many forms. In Java, it mainly refers to the ability of a single interface or method to work in      different ways depending on the context.
 
-compile time polymorphism/ static polymorphism/ method overloading. 
-
+	 compile time polymorphism/ static polymorphism/ method overloading. 
+```
 	class Calculator {
     int add(int a, int b) {
         return a + b;
@@ -216,9 +219,11 @@ public class Main {
         System.out.println(calc.add(5.5, 3.2));   // calls double version
     }
 }
+```
 
-⦁	run time polymorphism/ dynamic polymorphism/ method overriding
- 
+- run time polymorphism/ dynamic polymorphism/ method overriding
+
+ ```
 class Animal {
     void sound() {
         System.out.println("Animal makes a sound");
@@ -238,16 +243,20 @@ public class Main {
     }
 }
 
-⦁	Exception handling in java: 
+```
+
+---
+
+ # Exception handling in java: 
     In Java, an exception is an unexpected event or error that occurs during the execution of a program and disrupts the normal flow of instructions.
     
 	.
 
-🧩 Types of Exceptions
+- Types of Exceptions
 
 Java exceptions are mainly divided into three categories:
 
-1. Checked Exceptions
+- Checked Exceptions
 
 Checked at compile-time.
 
@@ -263,6 +272,7 @@ FileNotFoundException
 
 ✅ Example:
 
+```
 import java.io.*;
 
 public class CheckedExample {
@@ -274,6 +284,7 @@ public class CheckedExample {
         }
     }
 }
+```
 
 2. Unchecked Exceptions (Runtime Exceptions)
 
@@ -292,11 +303,12 @@ ArrayIndexOutOfBoundsException
 NumberFormatException
 
 ✅ Example:
+```
 
 public class UncheckedExample {
     public static void main(String[] args) {
         int a = 10 / 0; // ArithmeticException
     }
 }
-
+```
 
